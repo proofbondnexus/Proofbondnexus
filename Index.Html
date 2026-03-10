@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ProofBond Nexus • AI Compliance Passport</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .gradient-bond { background: linear-gradient(135deg, #0f172a, #1e293b); }
+  </style>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#10b981', // emerald-500
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen antialiased">
+
+  <!-- Navbar -->
+  <nav class="bg-gray-900/80 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-shield-halved text-3xl text-emerald-500"></i>
+        <span class="text-2xl font-bold tracking-tight">ProofBond Nexus</span>
+      </div>
+      <div class="hidden md:flex gap-8 text-sm font-medium">
+        <a href="#scan" class="hover:text-emerald-400 transition">Scan</a>
+        <a href="#bonds" class="hover:text-emerald-400 transition">Bonds</a>
+        <a href="#dashboard" class="hover:text-emerald-400 transition">Dashboard</a>
+      </div>
+      <button onclick="openModal()" class="bg-emerald-600 hover:bg-emerald-700 px-6 py-2.5 rounded-lg font-semibold text-sm transition">
+        Join Beta • Free ProofBond
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-6 py-20 lg:py-32 text-center">
+    <div class="inline-flex items-center gap-2 bg-gray-800/50 border border-emerald-500/30 rounded-full px-5 py-2 text-sm mb-8">
+      <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+      EU AI Act Enforcement Ready • 2026
+    </div>
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+      Compliance Proof.<br>Tokenized Bond.<br>Instant Capital.
+    </h1>
+    <p class="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12">
+      Turn EU AI Act compliance into a financial asset. Auto-issue ProofBonds that unlock grants, loans, insurance discounts — even in downturns.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-5 justify-center">
+      <button onclick="document.getElementById('scan').scrollIntoView({behavior:'smooth'})" 
+              class="bg-emerald-600 hover:bg-emerald-700 px-10 py-5 rounded-xl text-lg font-semibold flex items-center justify-center gap-3 transition">
+        <i class="fa-solid fa-magnifying-glass-chart"></i>
+        Start Free Scan (30s)
+      </button>
+      <button onclick="openModal()" 
+              class="border border-gray-600 hover:bg-gray-800 px-10 py-5 rounded-xl text-lg font-semibold transition">
+        Join Beta • Claim ProofBond
+      </button>
+    </div>
+    <p class="text-sm text-gray-500 mt-8">Patent Pending • Built in Ohio • First 50 betas free</p>
+  </section>
+
+  <!-- Scan Section -->
+  <section id="scan" class="max-w-7xl mx-auto px-6 py-20 border-t border-gray-800">
+    <h2 class="text-4xl font-bold text-center mb-12">Nexus Compliance Scanner</h2>
+    <div class="grid md:grid-cols-2 gap-10">
+      <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800">
+        <label class="block text-lg font-medium mb-4">Describe your AI system (or paste docs):</label>
+        <textarea id="scanInput" rows="8" 
+                  class="w-full bg-gray-950 border border-gray-700 rounded-xl p-5 text-gray-300 focus:outline-none focus:border-emerald-500 resize-none"
+                  placeholder="Example: We run a credit-scoring AI using resume data and behavioral inputs..."></textarea>
+        <button onclick="performScan()" 
+                class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 py-5 rounded-xl font-bold text-lg transition">
+          RUN NEXUS ENGINE →
+        </button>
+      </div>
+
+      <div id="scanResult" class="hidden bg-gray-900 p-8 rounded-2xl border border-gray-800">
+        <div class="flex justify-between items-start mb-8">
+          <div>
+            <div class="text-sm text-gray-400">Compliance Score</div>
+            <div id="complianceScore" class="text-7xl font-bold text-emerald-500">—</div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-gray-400 mb-2">EU AI Act Status</div>
+            <span class="bg-emerald-500/20 text-emerald-400 px-5 py-2 rounded-full text-sm font-medium">Compliant</span>
+          </div>
+        </div>
+        <div id="checklist" class="space-y-4 text-sm"></div>
+        <button onclick="issueBond()" 
+                class="mt-10 w-full bg-white text-gray-950 py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition">
+          <i class="fa-solid fa-file-signature"></i>
+          ISSUE PROOFBOND (Tokenized Surety)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bonds Section -->
+  <section id="bonds" class="max-w-7xl mx-auto px-6 py-20 bg-gradient-to-b from-gray-950 to-gray-900">
+    <h2 class="text-4xl font-bold text-center mb-12">Your Issued ProofBonds</h2>
+    <div id="bondsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </section>
+
+  <!-- Dashboard Teaser -->
+  <section id="dashboard" class="max-w-7xl mx-auto px-6 py-20 border-t border-gray-800">
+    <h2 class="text-4xl font-bold text-center mb-12">Capital Unlocked Overview</h2>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="bg-gray-900 p-10 rounded-2xl border border-gray-800">
+        <div class="text-6xl font-bold text-emerald-500">$1.4M</div>
+        <p class="text-gray-400 mt-4">Potential unlocked via bonds</p>
+      </div>
+      <div class="bg-gray-900 p-10 rounded-2xl border border-gray-800">
+        <div class="text-6xl font-bold">4</div>
+        <p class="text-gray-400 mt-4">Active ProofBonds</p>
+      </div>
+      <div class="bg-gray-900 p-10 rounded-2xl border border-gray-800">
+        <div class="text-6xl font-bold text-emerald-500">52%</div>
+        <p class="text-gray-400 mt-4">Avg. premium discount</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black py-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+      <p>ProofBond Nexus LLC • Columbus / Cleveland, Ohio • Patent Pending 2026</p>
+      <p class="mt-2">Not legal/financial advice • For demo & beta purposes only</p>
+    </div>
+  </footer>
+
+  <!-- Beta Modal -->
+  <div id="betaModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4">
+    <div class="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-gray-800">
+      <h3 class="text-2xl font-bold mb-6">Join the Beta</h3>
+      <p class="text-gray-400 mb-8">Get your first ProofBond free. Limited to first 50 Ohio founders.</p>
+      <input id="betaEmail" type="email" placeholder="your@email.com" 
+             class="w-full bg-gray-950 border border-gray-700 rounded-xl px-6 py-4 mb-6 focus:outline-none focus:border-emerald-500">
+      <button onclick="submitBeta()" 
+              class="w-full bg-emerald-600 hover:bg-emerald-700 py-5 rounded-xl font-bold text-lg transition">
+        CLAIM MY PROOFBOND
+      </button>
+      <button onclick="closeModal()" class="text-gray-500 mt-6 text-sm block mx-auto hover:text-gray-300">Close</button>
+    </div>
+  </div>
+
+  <script>
+    let bonds = [];
+
+    function performScan() {
+      const input = document.getElementById('scanInput').value.trim() || "Sample AI compliance description";
+      document.getElementById('scanResult').classList.remove('hidden');
+
+      const score = Math.floor(Math.random() * 8) + 92;
+      document.getElementById('complianceScore').textContent = score + '%';
+
+      const checks = [
+        { name: "Transparency & Human Oversight", result: "Passed" },
+        { name: "Bias & Discrimination Audit", result: "Passed" },
+        { name: "Data Governance (GDPR)", result: "Passed" },
+        { name: "Risk Classification", result: "Medium – Mitigated" }
+      ];
+
+      document.getElementById('checklist').innerHTML = checks.map(c => `
+        <div class="flex justify-between items-center py-2 border-b border-gray-800 last:border-0">
+          <span>${c.name}</span>
+          <span class="\( {c.result.includes('Passed') ? 'text-emerald-400' : 'text-amber-400'} font-medium"> \){c.result}</span>
+        </div>
+      `).join('');
+    }
+
+    function issueBond() {
+      const id = 'PB-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+      const newBond = {
+        id,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        value: '$250,000',
+        status: 'Active • Tokenized Preview'
+      };
+      bonds.push(newBond);
+      renderBonds();
+      alert(`ProofBond Issued!\n\nID: ${id}\nValue: $250,000\nStatus: Active\n\nUse this for demo / investor pitches.`);
+      document.getElementById('bonds').scrollIntoView({behavior: 'smooth'});
+    }
+
+    function renderBonds() {
+      const container = document.getElementById('bondsContainer');
+      container.innerHTML = bonds.map(b => `
+        <div class="gradient-bond p-8 rounded-2xl border border-gray-800">
+          <div class="flex justify-between text-xs mb-6">
+            <span class="bg-emerald-500/10 text-emerald-400 px-4 py-1 rounded-full">${b.date}</span>
+            <span class="font-mono text-emerald-400">${b.id}</span>
+          </div>
+          <div class="text-5xl font-bold text-emerald-500 mb-2">${b.value}</div>
+          <div class="text-sm text-gray-400 mb-8">${b.status}</div>
+          <button onclick="alert('PDF + QR download simulation')" 
+                  class="w-full border border-gray-600 hover:bg-gray-800 py-4 rounded-xl text-sm font-medium transition">
+            Download Bond PDF + QR
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function openModal() { document.getElementById('betaModal').classList.remove('hidden'); }
+    function closeModal() { document.getElementById('betaModal').classList.add('hidden'); }
+
+    function submitBeta() {
+      const email = document.getElementById('betaEmail').value.trim();
+      if (email) {
+        alert(`Beta request sent to ${email}!\n\nYour ProofBond is in preparation — check back soon.`);
+        closeModal();
+      } else {
+        alert('Please enter your email.');
+      }
+    }
+
+    // Init
+    window.addEventListener('load', () => {
+      // Seed demo bond
+      bonds = [{ id: 'PB-DEMO-2026', date: 'Mar 10, 2026', value: '$500,000', status: 'Active • Ready' }];
+      renderBonds();
+    });
+  </script>
+</body>
+</html>
